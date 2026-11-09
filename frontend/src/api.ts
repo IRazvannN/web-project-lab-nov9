@@ -205,10 +205,12 @@ const TOKEN_KEY = 'attendance.token'
 
 export const tokenStore = {
   get: (): string | null => {
-    try { return localStorage.getItem(TOKEN_KEY) } catch { return null }
+    // sessionStorage is isolated per browser tab. This allows an administrator and a
+    // student to test the app side by side without one tab replacing the other's login.
+    try { return sessionStorage.getItem(TOKEN_KEY) } catch { return null }
   },
   set: (t: string | null) => {
-    try { if (t) localStorage.setItem(TOKEN_KEY, t); else localStorage.removeItem(TOKEN_KEY) } catch { /* ignore */ }
+    try { if (t) sessionStorage.setItem(TOKEN_KEY, t); else sessionStorage.removeItem(TOKEN_KEY) } catch { /* ignore */ }
   },
 }
 
